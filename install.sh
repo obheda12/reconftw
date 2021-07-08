@@ -3,36 +3,20 @@
 . ./reconftw.cfg
 
 declare -A gotools
-gotools["gf"]="go get -v github.com/tomnomnom/gf"
-gotools["qsreplace"]="go get -v github.com/tomnomnom/qsreplace"
 gotools["Amass"]="GO111MODULE=on go get -v github.com/OWASP/Amass/v3/..."
 gotools["ffuf"]="go get -u github.com/ffuf/ffuf"
 gotools["assetfinder"]="go get -v github.com/tomnomnom/assetfinder"
-gotools["github-subdomains"]="go get -u github.com/gwen001/github-subdomains"
-gotools["cf-check"]="go get -v github.com/dwisiswant0/cf-check"
-gotools["waybackurls"]="go get -v github.com/tomnomnom/hacks/waybackurls"
 gotools["nuclei"]="GO111MODULE=on go get -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei"
 gotools["anew"]="go get -v github.com/tomnomnom/anew"
-gotools["notify"]="GO111MODULE=on go get -v github.com/projectdiscovery/notify/cmd/notify"
-gotools["mildew"]="go get -u github.com/daehee/mildew/cmd/mildew"
-gotools["dirdar"]="go get -u github.com/m4dm0e/dirdar"
-gotools["unfurl"]="go get -v github.com/tomnomnom/unfurl"
 gotools["httpx"]="GO111MODULE=on go get -v github.com/projectdiscovery/httpx/cmd/httpx"
-gotools["github-endpoints"]="go get -u github.com/gwen001/github-endpoints"
 gotools["dnsx"]="GO111MODULE=on go get -v github.com/projectdiscovery/dnsx/cmd/dnsx"
 gotools["subfinder"]="GO111MODULE=on go get -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder"
 gotools["gauplus"]="GO111MODULE=on go get -u -v github.com/bp0lr/gauplus"
-gotools["subjs"]="GO111MODULE=on go get -u -v github.com/lc/subjs"
-gotools["Gxss"]="go get -v github.com/KathanP19/Gxss"
 gotools["gospider"]="go get -u github.com/jaeles-project/gospider"
 gotools["crobat"]="go get -v github.com/cgboal/sonarsearch/crobat"
-gotools["crlfuzz"]="GO111MODULE=on go get -v github.com/dwisiswant0/crlfuzz/cmd/crlfuzz"
-gotools["dalfox"]="GO111MODULE=on go get -v github.com/hahwul/dalfox/v2"
-gotools["puredns"]="GO111MODULE=on go get github.com/d3mondev/puredns/v2"
-gotools["resolveDomains"]="go get -v github.com/Josue87/resolveDomains"
-gotools["interactsh-client"]="GO111MODULE=on go get -v github.com/projectdiscovery/interactsh/cmd/interactsh-client"
-gotools["analyticsrelationships"]="go get -v github.com/Josue87/analyticsrelationships"
-gotools["gotator"]="go get -v github.com/Josue87/gotator"
+gotools["gobuster"]="go get -v github.com/OJ/gobuster"
+gotools["gowitness"]="go get -u github.com/sensepost/gowitness"
+
 
 declare -A repos
 repos["degoogle_hunter"]="six2dez/degoogle_hunter"
@@ -41,25 +25,11 @@ repos["dnsvalidator"]="vortexau/dnsvalidator"
 repos["dnsrecon"]="darkoperator/dnsrecon"
 repos["theHarvester"]="laramies/theHarvester"
 repos["brutespray"]="x90skysn3k/brutespray"
-repos["wafw00f"]="EnableSecurity/wafw00f"
-repos["gf"]="tomnomnom/gf"
-repos["Gf-Patterns"]="1ndianl33t/Gf-Patterns"
-repos["github-search"]="gwen001/github-search"
-repos["ctfr"]="UnaPibaGeek/ctfr"
 repos["LinkFinder"]="dark-warlord14/LinkFinder"
-repos["Corsy"]="s0md3v/Corsy"
-repos["CMSeeK"]="Tuhinshubhra/CMSeeK"
 repos["fav-up"]="pielco11/fav-up"
 repos["Interlace"]="codingo/Interlace"
 repos["massdns"]="blechschmidt/massdns"
-repos["OpenRedireX"]="devanshbatham/OpenRedireX"
-repos["GitDorker"]="obheda12/GitDorker"
 repos["testssl"]="drwetter/testssl.sh"
-repos["ip2provider"]="oldrho/ip2provider"
-repos["commix"]="commixproject/commix"
-repos["JSA"]="six2dez/JSA"
-repos["urldedupe"]="ameenmaali/urldedupe"
-repos["cloud_enum"]="initstring/cloud_enum"
 
 dir=${tools}
 double_check=false
@@ -147,14 +117,11 @@ if [[ $(eval type go $DEBUG_ERROR | grep -o 'go is') == "go is" ]] && [ "$versio
         if [ "True" = "$IS_ARM" ]; then
             eval wget https://dl.google.com/go/${version}.linux-armv6l.tar.gz $DEBUG_STD
             eval $SUDO tar -C /usr/local -xzf ${version}.linux-armv6l.tar.gz $DEBUG_STD
-            eval echo "moving_go"
-            eval mv /go/ /root/
             
         else
             eval wget https://dl.google.com/go/${version}.linux-amd64.tar.gz $DEBUG_STD
             eval $SUDO tar -C /usr/local -xzf ${version}.linux-amd64.tar.gz $DEBUG_STD
-            eval echo "moving_go"
-            eval mv /go/ /root/
+            
         fi
         eval $SUDO cp /usr/local/go/bin/go /usr/bin
         rm -rf go$LATEST_GO*
@@ -189,6 +156,9 @@ eval ln -s /usr/local/bin/pip3 /usr/bin/pip3 $DEBUG_STD
 eval pip3 install -I -r requirements.txt $DEBUG_STD
 
 printf "${bblue} Running: Installing Golang tools (${#gotools[@]})${reset}\n\n"
+eval echo "moving_go"
+eval cd /
+eval mv /go/ /root/
 go env -w GO111MODULE=auto
 go_step=0
 for gotool in "${!gotools[@]}"; do

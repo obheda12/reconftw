@@ -147,9 +147,14 @@ if [[ $(eval type go $DEBUG_ERROR | grep -o 'go is') == "go is" ]] && [ "$versio
         if [ "True" = "$IS_ARM" ]; then
             eval wget https://dl.google.com/go/${version}.linux-armv6l.tar.gz $DEBUG_STD
             eval $SUDO tar -C /usr/local -xzf ${version}.linux-armv6l.tar.gz $DEBUG_STD
+            eval echo "moving_go"
+            eval mv /go/ /root/
+            
         else
             eval wget https://dl.google.com/go/${version}.linux-amd64.tar.gz $DEBUG_STD
             eval $SUDO tar -C /usr/local -xzf ${version}.linux-amd64.tar.gz $DEBUG_STD
+            eval echo "moving_go"
+            eval mv /go/ /root/
         fi
         eval $SUDO cp /usr/local/go/bin/go /usr/bin
         rm -rf go$LATEST_GO*
@@ -162,7 +167,6 @@ cat << EOF >> ~/${profile_shell}
 export GOROOT=/usr/local/go
 export GOPATH=\$HOME/go
 export PATH=\$GOPATH/bin:\$GOROOT/bin:\$HOME/.local/bin:\$PATH
-mv go/ /root/
 EOF
 
 fi
